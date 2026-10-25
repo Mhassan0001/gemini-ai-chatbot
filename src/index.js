@@ -4,10 +4,9 @@ import express from "express";
 import connectDB from "./config/db.js";
 import morgan from "morgan";
 import cors from "cors";
+import errorHandler from "./middleware/errorHandler.js";
 import limiter from "./config/rateLimit.js";
 import cookieParser from "cookie-parser";
-import chatRoutes from "./routes/chat.routes.js";
-import errorHandler from "./middleware/errorHandler.js";
 
 const CLIENT_URL = "http://localhost:5173";
 
@@ -25,8 +24,6 @@ server.use(cookieParser());
 server.get("/", (req, res) => {
   res.json({ msg: "Server Running Successfully....." });
 });
-
-server.use("/api/chat", chatRoutes);
 
 server.use(errorHandler);
 
