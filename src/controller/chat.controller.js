@@ -17,12 +17,12 @@ export async function chatController(req, res) {
       success: true,
       reply,
     });
-  } catch (error) {
-    console.error("Chat controller error:", error.message);
+  }catch (error) {
+  console.error("Actual error:", error);
 
-    return res.status(500).json({
-      success: false,
-      message: "Failed to generate AI response.",
-    });
-  }
+  return res.status(500).json({
+    success: false,
+    message: error.message,
+  });
+}
 }

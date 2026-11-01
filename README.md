@@ -5,7 +5,7 @@ Send a prompt to the API; get a clean JSON response back.
 
 ## What it does
 
-- Generates replies with Google's **Gemini 2.5 Flash** model.
+- Generates replies with Google's **Gemini 3.8 Flash** model.
 - Exposes a `POST /api/chat` endpoint.
 - Rejects empty or invalid messages before calling Gemini.
 - Limits requests to **100 per 15 minutes** per client.

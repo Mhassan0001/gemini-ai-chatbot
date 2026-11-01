@@ -9,12 +9,14 @@ if (!apiKey) {
 const ai = new GoogleGenAI({ apiKey });
 
 export async function generateResponse(message) {
+  console.log("Gemini service loaded");
+  console.log("Using model: gemini-3.8-flash");
   if (typeof message !== "string" || !message.trim()) {
     throw new Error("Message must be a non-empty string");
   }
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
+    model: "gemini-3.8-flash",
     contents: message.trim(),
   });
 
