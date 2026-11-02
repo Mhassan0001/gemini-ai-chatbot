@@ -11,18 +11,25 @@ const ai = new GoogleGenAI({ apiKey });
 export async function generateResponse(message) {
   console.log("Gemini service loaded");
   console.log("Using model: gemini-3.8-flash");
+
   if (typeof message !== "string" || !message.trim()) {
     throw new Error("Message must be a non-empty string");
   }
 
-  const response = await ai.models.generateContent({
-    model: "gemini-3.8-flash",
-    contents: message.trim(),
-  });
+  console.time("Gemini API Duration");
 
-  if (!response.text) {
-    throw new Error("Gemini returned an empty response");
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3.8-flash",
+      contents: message.trim(),
+    });
+
+    if (!response.text) {
+      throw new Error("Gemini returned an empty response");
+    }
+
+    return response.text;
+  } finally {
+    console.timeEnd("Gemini API Duration");
   }
-
-  return response.text;
 }
