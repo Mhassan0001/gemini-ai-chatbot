@@ -26,7 +26,6 @@ server.get("/", (req, res) => {
 });
 
 server.use("/api/chat", chatRoutes);
-
 server.use(errorHandler);
 
 //! =================================================
