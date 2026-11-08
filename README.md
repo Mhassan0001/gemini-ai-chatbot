@@ -5,7 +5,7 @@ Send a prompt to the API; get a clean JSON response back.
 
 ## What it does
 
-- Generates replies with Google's **Gemini 3.8 Flash** model.
+- Generates replies with Google's **Gemini 3.5 Flash-Lite** model.
 - Exposes a `POST /api/chat` endpoint.
 - Rejects empty or invalid messages before calling Gemini.
 - Limits requests to **100 per 15 minutes** per client.
@@ -13,7 +13,8 @@ Send a prompt to the API; get a clean JSON response back.
 
 ## Get started
 
-You will need Node.js, a MongoDB connection string, and a Gemini API key.
+You will need Node.js, a MongoDB connection string, and a Gemini API key to
+run the backend locally.
 
 1. Install the dependencies:
 
@@ -40,6 +41,33 @@ You will need Node.js, a MongoDB connection string, and a Gemini API key.
 
    The API starts after it connects to MongoDB. If the database connection
    fails, the server exits with an error.
+
+## Run with Docker Compose
+
+Docker Compose starts the backend and MongoDB together. Create a `.env` file
+in the project root with your Gemini API key:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+The Compose configuration supplies the MongoDB connection string for the
+backend. The `.env` file is still required by Compose and should not be
+committed.
+
+Build and start the services:
+
+```bash
+docker compose up --build
+```
+
+The API is available at `http://localhost:9000`. MongoDB data is stored in the
+`mongo_data` Docker volume and is retained when the services are stopped.
+Stop the services with:
+
+```bash
+docker compose down
+```
 
 ## API routes
 
