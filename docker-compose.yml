@@ -1,0 +1,33 @@
+
+services:
+  # Backend Container
+  backend:
+    build: .
+    container_name: gemini-backend
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/Gemnini_Test
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # MongoDB Container
+  mongodb:
+    image: mongo:8
+    container_name: gemini-mongodb
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+# Persistent Storage
+volumes:
+  mongo_data:
