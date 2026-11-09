@@ -29,7 +29,7 @@ Google's **Gemini 3.5 Flash-Lite** model.
 | --- | --- |
 | Gemini chat | Generates replies with Gemini 3.5 Flash-Lite |
 | Request validation | Rejects empty or non-string messages |
-| Rate limiting | Allows up to 100 requests per 15 minutes per client |
+| Rate limiting | Allows up to 100 requests per 15-minute window per client |
 | MongoDB | Connects to the database before the API starts |
 | Docker Compose | Runs the backend and MongoDB together |
 
@@ -64,7 +64,8 @@ Google's **Gemini 3.5 Flash-Lite** model.
    ```
 
 The API starts after a successful MongoDB connection and listens on port
-`9000` by default. Keep `.env` private and never commit real credentials.
+`9000` by default. Make sure MongoDB is reachable at the configured `MONGO_URI`.
+Keep `.env` private and never commit real credentials.
 
 ## Run with Docker Compose
 
@@ -122,7 +123,7 @@ curl -X POST http://localhost:9000/api/chat \
   -d "{\"message\":\"Give me one idea for a tiny weekend project.\"}"
 ```
 
-**Success response - `200 OK`**
+**Success response — `200 OK`**
 
 ```json
 {
@@ -138,6 +139,16 @@ curl -X POST http://localhost:9000/api/chat \
 | `400 Bad Request` | The message is missing, empty, or not a string |
 | `500 Internal Server Error` | The Gemini request failed |
 | `429 Too Many Requests` | The rate limit was exceeded |
+
+The rate limit applies to all routes. The chat endpoint returns a `400` response
+when `message` is missing, empty, or not a string:
+
+```json
+{
+  "success": false,
+  "message": "Please provide a valid message."
+}
+```
 
 ## Project structure
 
@@ -160,4 +171,3 @@ src/
 | `PORT` | No | `9000` | Port used by the API |
 
 The frontend CORS origin is currently set to `http://localhost:5173`.
-Automated tests are not configured yet.
